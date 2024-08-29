@@ -5,11 +5,11 @@ After cloning the repository, to run an experiment, execute the following code (
 
 `julia --project`
 
-Then, to run Experiment 1 in the article (the convex problem), run:
+Then, to run Experiment 1 in the article (the convex problem):
 
 `julia> include("test.jl")`
 
-Similarly, to run Experiment 2 in the article (the nonconvex Difference-of-Convex "DC" problem), run:
+Similarly, to run Experiment 2 in the article (the nonconvex Difference-of-Convex "DC" problem):
 
 `julia> include("dc-test.jl")`
 
@@ -32,14 +32,17 @@ Each column of a results file has a corresponding label:
 - `iter`: Iteration
 - `time`: Time used
 - `primal`: Function value at the current iteration
-- `d` or `fd`: This label is `d` if it is the true Frank-Wolfe gap value at the current iteration; otherwise, an incorrect value is given by `fd`. Since BCFW does not compute full Frank-Wolfe gaps on the fly (only partial F-W gaps are available), this statistic must be computed separately, hence increasing experiment runtime. By default, full Frank-Wolfe gaps are only computed on the nonconvex DC runs; to compute full Frank-Wolfe gaps on any experiment, set `compute_FWgaps=true` within the experiment script. 
+   `lmo1` / `lmo2` - number of linear minimization oracle calls completed until the current iteration (see experiment scripts for their corresponding constraint set).
+- `d` (or `fd`): This label is `d` if it is the true Frank-Wolfe gap value at the current iteration; otherwise, an approximate (albeit incorrect) value is given by `fd`. Since BCFW does not compute full Frank-Wolfe gaps on the fly (only partial F-W gaps are available), this statistic must be computed separately, hence increasing experiment runtime. By default, full Frank-Wolfe gaps are only computed on the nonconvex DC runs; to compute full Frank-Wolfe gaps on any experiment, set `compute_FWgaps=true` within the experiment script.
 <!---
 More specifically, `d` corresponds to (in the notation of the article) 
 $$\sum_{i\in I} \langle \nabla f(\boldsymbol{x}^i_t)\,|\,\boldsymbol{v}^i_t-\boldsymbol{x}^i_t\rangle$$,
 while `fd` is just a placeholder value; specifically, it is
 $\sum_{i\in I}\langle \nabla f(\boldsymbol{x}^i_{c_i(t)}\,|\,\boldsymbol{v}^i_{c_i(t)}-\boldsymbol{x}^i_{c_i(t)}\rangle$, where $c_i(t)$ is the most recent iteration preceding $t$ at which component $i$ was updated. The values of `fd` are never plotted in the article.
 --->
-
+- `dmin` (or `fdmin`) - minimally observed Frank-Wolfe gap (resp. F-W gap approximation) observed until the current iteration
+- `davg` (or `favg`) - average of all Frank-Wolfe gaps (resp. F-W gap approximations) observed until the current iteration
+  
 To plot the data, one can use, e.g., TikZ/pgfplots. The TeX code for plotting all of our data will be available on ArXiv, but a brief example (plotting Experiment 1 for the averaged $n=100$ results) is below (please note the use of custom colors for accessibility reasons; see <a href="https://github.com/jfdm/sta-latex/blob/master/colour-blind.sty">this repository</a> for their definitions)
 
 ```
