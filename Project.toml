@@ -1,0 +1,11 @@
+name = "bcg"
+uuid = "398eb1b9-91d3-42b5-8d9d-b8165360f534"
+authors = ["Zev Woodstock <woodstock@zib.de>"]
+version = "0.1.0"
+
+[deps]
+FiniteDifferences = "26cc04aa-876d-5657-8c51-4c34ba976000"
+FrankWolfe = "f55ce6ea-fdc5-4628-88c5-0087fe54bd30"
+
+[compat]
+FrankWolfe = "=0.3.3"
