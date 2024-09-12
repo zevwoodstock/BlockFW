@@ -1,5 +1,5 @@
 This repository contains the code used to produce the results in **"Flexible block-iterative analysis for the Frank-Wolfe algorithm"**
-by Gábor Braun, Sebastian Pokutta, and Zev Woodstock (<a href="https://zevwoodstock.github.io/media/publications/block.pdf">preprint</a>)
+by Gábor Braun, Sebastian Pokutta, and Zev Woodstock (<a href="https://arxiv.org/abs/2409.06931">preprint</a>)
 
 After cloning the repository, to run an experiment, execute the following code (make sure <a href="https://julialang.org/">Julia</a> version $\geq 1.8.5$ is installed beforehand):
 
@@ -43,7 +43,7 @@ $\sum_{i\in I}\langle \nabla f(\boldsymbol{x}^i_{c_i(t)}\,|\,\boldsymbol{v}^i_{c
 - `dmin` (or `fdmin`) - minimally observed Frank-Wolfe gap (resp. F-W gap approximation) observed until the current iteration
 - `davg` (or `favg`) - average of all Frank-Wolfe gaps (resp. F-W gap approximations) observed until the current iteration
   
-To plot the data, one can use, e.g., TikZ/pgfplots. The TeX code for plotting all of our data will be available on ArXiv, but a brief example (plotting Experiment 1 for the averaged $n=100$ results) is below (please note the use of custom colors for accessibility reasons; see <a href="https://github.com/jfdm/sta-latex/blob/master/colour-blind.sty">this repository</a> for their definitions)
+To plot the data, one can use, e.g., TikZ/pgfplots. The TeX code for plotting all of our data is available on ArXiv and can be downloaded from <a href="https://arxiv.org/src/2409.06931">source</a>, but a brief example (plotting Experiment 1 for the averaged $n=100$ results) is below. Please note the use of custom colors for accessibility reasons; see <a href="https://github.com/jfdm/sta-latex/blob/master/colour-blind.sty">this repository</a> for their definitions.
 
 ```
 \begin{tikzpicture}
