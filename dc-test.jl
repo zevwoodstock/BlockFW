@@ -20,6 +20,7 @@ filename_suffix = string(datetime[5:13],"-",datetime[15:16])
 
 n_list = [100, 300, 500]
 num_trials = 20
+
 #Set compute_FWgaps = true for this case, since we're solving a
 #nonconvex problem, this needed to establish stationarity.
 compute_FWgaps = true
@@ -49,11 +50,17 @@ lazy_skiprate3 = 10
 lazy_blocksize3 = 10
 lazy_skiprate4 = 20
 lazy_blocksize4 = 2
+ec_lazy_skiprate1 = round(2*n)
+ec_lazy_skiprate2 = round(1.5*n)
+
+
 #Set up orders to be tested using FW.jl
 orders = [
     FrankWolfe.FullUpdate(),
     FrankWolfe.CyclicUpdate(),
     FrankWolfe.StochasticUpdate(),
+    EssentiallyCyclic(lazy_component,ec_lazy_skiprate1),
+    EssentiallyCyclic(lazy_component,ec_lazy_skiprate2),
     LazyUpdate(lazy_component,lazy_skiprate, lazy_blocksize),
     LazyUpdate(lazy_component,lazy_skiprate2, lazy_blocksize2),
     LazyUpdate(lazy_component,lazy_skiprate3, lazy_blocksize3),
@@ -66,10 +73,13 @@ orders = [
 #iteration. So, here we adjust our maximum iteration counter so
 #that everyone actually does the same number of iterations.
 maxiter_full = 10000
+
 #This is the variable for "FW.jl iterations" (External iterations)
 max_iters = (maxiter_full,
 	     convert(Int,ceil(maxiter_full/length(prod_lmo.lmos))),
 	     convert(Int,ceil(maxiter_full/length(prod_lmo.lmos))),
+	     convert(Int,ceil(maxiter_full/ec_lazy_skiprate1)),
+	     convert(Int,ceil(maxiter_full/ec_lazy_skiprate2)),
 	     convert(Int,ceil(maxiter_full/lazy_skiprate)),
 	     convert(Int,ceil(maxiter_full/lazy_skiprate2)),
 	     convert(Int,ceil(maxiter_full/lazy_skiprate3)),
@@ -80,16 +90,20 @@ max_iters = (maxiter_full,
 iter_multiplier = [1,
 		   length(prod_lmo.lmos),
 		   length(prod_lmo.lmos),
+                   ec_lazy_skiprate1,
+                   ec_lazy_skiprate2,
 		   lazy_skiprate,
 		   lazy_skiprate2,
 		   lazy_skiprate3,
 		   lazy_skiprate4,
 		   ]
-#Labels for files output using export_data() in plot_utils.j.
+#Labels for files output using export_data() in plot_utils.jl.
 #Provide a string for each element of orders.
 labels_filename = ("full", 
 		     "cyclic", 
 		     "stoc", 
+		     string("ecyc",ec_lazy_skiprate1),
+		     string("ecyc",ec_lazy_skiprate2),
 		     string("custom",lazy_skiprate),
                      string("custom",lazy_skiprate2),
                      string("custom",lazy_skiprate3),
@@ -112,8 +126,8 @@ gaps = [[] for i in range(1,length(orders))]
 
 for i in range(1,length(orders))
     #Array to hold information for each trial; will use for
-    #averaging at the end.  iters, f(x), f(x)-gap, gap, time, lmo1
-    #count, lmo2 count
+    #averaging at the end:
+    #iters, f(x), f(x)-gap, gap, time, lmo1_count, lmo2_count
     temp_trialdata = zeros(max_iters[i]+3,7,num_trials)
     for trial in range(1,num_trials)
         println("Starting trial ",trial)
@@ -234,7 +248,7 @@ for i in range(1,length(orders))
     	    temp_trialdata[j,:,trial] = [iter_multiplier[i].*trajectory[j][1], trajectory[j][2], trajectory[j][3], FrankWolfe.fast_dot(g_storage,Xt - v), trajectory[j][5],trajectory[j][6],trajectory[j][7]]
             else
     		#If don't care about FW gaps, at least count iteration correctly.
-                temp_trialdata[j,:,trial]  = [iter_multiplier[i].*(trajectory[j][1]), trajectory[j][2], trajectory[j][3], trajectory[j][4], trajectory[j][5], trajectory[j][6], trajectory[j][7]]
+                temp_trialdata[j,:,trial]  = [iter_multiplier[i].*trajectory[j][1], trajectory[j][2], trajectory[j][3], trajectory[j][4], trajectory[j][5], trajectory[j][6], trajectory[j][7]]
             end
         end
         print("Done.")

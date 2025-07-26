@@ -39,6 +39,7 @@ prod_lmo = FrankWolfe.ProductLMO((lmo1, lmo2))
 #Various values of p-lazy to study:
 lazy_component = 1
 lazy_skiprate = 20
+ec_lazy_skiprate = 20
 lazy_skiprate2 = 10
 lazy_skiprate3 = 5
 #Define a list of block-selection strategies to iterate through
@@ -46,6 +47,7 @@ orders = [
     FrankWolfe.FullUpdate(),
     FrankWolfe.CyclicUpdate(),
     FrankWolfe.StochasticUpdate(),
+    EssentiallyCyclic(lazy_component,ec_lazy_skiprate),
     LazyUpdate(lazy_component,lazy_skiprate),
     LazyUpdate(lazy_component,lazy_skiprate2),
     LazyUpdate(lazy_component,lazy_skiprate3),
@@ -56,6 +58,7 @@ orders = [
 iter_multiplier = [1,
 		   length(prod_lmo.lmos),
 		   length(prod_lmo.lmos),
+                   ec_lazy_skiprate,
 		   lazy_skiprate,
 		   lazy_skiprate2,
 		   lazy_skiprate3,
@@ -63,6 +66,7 @@ iter_multiplier = [1,
 labels_filename = ("full", 
 		     "cyclic", 
 		     "stoc", 
+                     string("ecyc",ec_lazy_skiprate),
 		     string("custom",lazy_skiprate),
 		     string("custom",lazy_skiprate2),
 		     string("custom",lazy_skiprate3),
@@ -75,6 +79,7 @@ maxiter_full = 10000
 max_iters = (maxiter_full,
 	     convert(Int,round(0.5*maxiter_full)),
              convert(Int,round(0.5*maxiter_full)),
+             convert(Int,round(maxiter_full/ec_lazy_skiprate)),
              convert(Int,round(maxiter_full/lazy_skiprate)),
              convert(Int,round(maxiter_full/lazy_skiprate2)),
              convert(Int,round(maxiter_full/lazy_skiprate3)),
