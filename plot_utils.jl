@@ -357,11 +357,10 @@ function plot_trajectories(
     end
     return fp
 end
-
-function export_data(
-        """
-        Outputs data in a latex-readable format.
-        """
+"""
+    Outputs data in a latex-readable format.
+"""
+function export_data(        
     data_trajectories,
     label;
     filename_prefix="FW_results",

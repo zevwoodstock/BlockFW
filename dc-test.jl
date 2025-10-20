@@ -3,7 +3,7 @@ using LinearAlgebra
 using Dates
 using Random
 
-include("src/bcg.jl")
+include("src/BlockFW.jl")
 include("plot_utils.jl")
 
 #All data from the current run will have a suffix
@@ -19,7 +19,7 @@ filename_suffix = string(datetime[5:13],"-",datetime[15:16])
 #neither convex nor concave, and L_f=||A-B||, is calculable.
 
 n_list = [100, 300, 500]
-num_trials = 20
+num_trials = 1
 
 #Set compute_FWgaps = true for this case, since we're solving a
 #nonconvex problem, this needed to establish stationarity.
@@ -223,7 +223,7 @@ for i in range(1,length(orders))
             grad!,
             prod_lmo,
             x0;
-            verbose=true,
+            verbose=false,
             trajectory=false,
             update_order=orders[i],
             callback=mycallback,
