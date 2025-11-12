@@ -19,7 +19,7 @@ filename_suffix = string(datetime[5:13],"-",datetime[15:16])
 #neither convex nor concave, and L_f=||A-B||, is calculable.
 
 n_list = [100, 300, 500]
-num_trials = 1
+num_trials = 20
 
 #Set compute_FWgaps = true for this case, since we're solving a
 #nonconvex problem, this needed to establish stationarity.
