@@ -22,7 +22,7 @@ end
 
 #List of values of n (problems defined on n-by-n matrix variables)
 n_list = [100, 300, 500]
-num_trials = 1#20
+num_trials = 20
 
 for n in n_list
 
@@ -64,6 +64,7 @@ iter_multiplier = [1,
 		   lazy_skiprate2,
 		   lazy_skiprate3,
 		   ]
+iter_multiplier = (1, 1, 1, 1, 1, 1, 1)
 labels_filename = ("full", 
 		     "cyclic", 
 		     "stoc", 
@@ -77,14 +78,14 @@ labels_filename = ("full",
 #constraints) FW.jl iterations for cyclic and stochastic, then
 #do 1/lazy_skiprate FW.jl iterations for the custom method.
 maxiter_full = 10000
-max_iters = (maxiter_full,
-	     convert(Int,round(0.5*maxiter_full)),
-             convert(Int,round(0.5*maxiter_full)),
-             convert(Int,round(maxiter_full/ec_lazy_skiprate)),
-             convert(Int,round(maxiter_full/lazy_skiprate)),
-             convert(Int,round(maxiter_full/lazy_skiprate2)),
-             convert(Int,round(maxiter_full/lazy_skiprate3)),
-	     )
+max_iters = (maxiter_full, maxiter_full, maxiter_full, maxiter_full, maxiter_full, maxiter_full, maxiter_full)
+	    #  convert(Int,round(0.5*maxiter_full)),
+        #      convert(Int,round(0.5*maxiter_full)),
+        #      convert(Int,round(maxiter_full/ec_lazy_skiprate)),
+        #      convert(Int,round(maxiter_full/lazy_skiprate)),
+        #      convert(Int,round(maxiter_full/lazy_skiprate2)),
+        #      convert(Int,round(maxiter_full/lazy_skiprate3)),
+	    #  )
 
 #Initialize
 gaps = [[] for i in range(1,length(orders))]
