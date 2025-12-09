@@ -8,6 +8,7 @@ After cloning the repository, to run an experiment, execute the following code (
 Then, to run Experiment 1 in the article (the convex problem) for both BCFW with short-step and adaptive step sizes:
 
 `julia> include("test.jl")`
+
 `julia> include("test_adaptive.jl")`
 
 Similarly, to run Experiment 2 in the article (the nonconvex Difference-of-Convex "DC" problem):
