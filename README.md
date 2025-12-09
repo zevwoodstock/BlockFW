@@ -5,9 +5,10 @@ After cloning the repository, to run an experiment, execute the following code (
 
 `julia --project`
 
-Then, to run Experiment 1 in the article (the convex problem):
+Then, to run Experiment 1 in the article (the convex problem) for both BCFW with short-step and adaptive step sizes:
 
 `julia> include("test.jl")`
+`julia> include("test_adaptive.jl")`
 
 Similarly, to run Experiment 2 in the article (the nonconvex Difference-of-Convex "DC" problem):
 
@@ -17,7 +18,7 @@ After each experiment completes, they will output LaTeX-readable `.txt` files of
 
 `[header]_A[number_of_Averaged_trials]_[n value]_[activation method]-[timestamp].txt`,
 where:
-- `[header]` is `BCFW` for Experiment 1 and `DC` for Experiment 2.
+- `[header]` is `BCFW` and `BCFW_adpative` for Experiment 1 with short step and adaptive step size respectively, and `DC` for Experiment 2.
 - `[number_of_Averaged_trials]` is given by the variable `num_trials` in each test script.
 - `[n value]` is the length of the side of the matrix variable for each problem (i.e., each problem has $n^2$ variables). The list of all `n` values considered in an experiment is prescribed in the `n_list` variable of each test script.
 - `[activation method]` is one of the following:

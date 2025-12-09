@@ -53,18 +53,6 @@ orders = [
     LazyUpdate(lazy_component,lazy_skiprate2),
     LazyUpdate(lazy_component,lazy_skiprate3),
 ]
-#Since FrankWolfe.jl counts an "iteration" as a full external
-#iteration, we need to use these multipliers to keep iteration
-#counting consistent.
-iter_multiplier = [1,
-		   length(prod_lmo.lmos),
-		   length(prod_lmo.lmos),
-                   ec_lazy_skiprate,
-		   lazy_skiprate,
-		   lazy_skiprate2,
-		   lazy_skiprate3,
-		   ]
-iter_multiplier = (1, 1, 1, 1, 1, 1, 1)
 labels_filename = ("full", 
 		     "cyclic", 
 		     "stoc", 
@@ -73,19 +61,8 @@ labels_filename = ("full",
 		     string("custom",lazy_skiprate2),
 		     string("custom",lazy_skiprate3),
 		     )
-#FW.jl currently counts a full "epoch" as an "iteration", so to get the actual
-#iteration counting to work out properly, we need to do (1/ number of
-#constraints) FW.jl iterations for cyclic and stochastic, then
-#do 1/lazy_skiprate FW.jl iterations for the custom method.
 maxiter_full = 10000
 max_iters = (maxiter_full, maxiter_full, maxiter_full, maxiter_full, maxiter_full, maxiter_full, maxiter_full)
-	    #  convert(Int,round(0.5*maxiter_full)),
-        #      convert(Int,round(0.5*maxiter_full)),
-        #      convert(Int,round(maxiter_full/ec_lazy_skiprate)),
-        #      convert(Int,round(maxiter_full/lazy_skiprate)),
-        #      convert(Int,round(maxiter_full/lazy_skiprate2)),
-        #      convert(Int,round(maxiter_full/lazy_skiprate3)),
-	    #  )
 
 #Initialize
 gaps = [[] for i in range(1,length(orders))]
@@ -181,10 +158,10 @@ for i in range(1,length(orders))
             v = FrankWolfe.compute_extreme_point(prod_lmo,g_storage)
             #compute the actual full FW gap, and Count iterations
             #correctly, depending on the update rule selected.
-	    temp_trialdata[j,:,trial] = [iter_multiplier[i].*trajectory[j][1], trajectory[j][2], trajectory[j][3], FrankWolfe.fast_dot(g_storage,Xt - v), trajectory[j][5],trajectory[j][6],trajectory[j][7]]
+	    temp_trialdata[j,:,trial] = [trajectory[j][1], trajectory[j][2], trajectory[j][3], FrankWolfe.fast_dot(g_storage,Xt - v), trajectory[j][5],trajectory[j][6],trajectory[j][7]]
         else
 		#If don't care about FW gaps, at least count iteration correctly.
-            temp_trialdata[j,:,trial]  = [iter_multiplier[i].*(trajectory[j][1]), trajectory[j][2], trajectory[j][3], trajectory[j][4], trajectory[j][5], trajectory[j][6], trajectory[j][7]]
+            temp_trialdata[j,:,trial]  = [trajectory[j][1], trajectory[j][2], trajectory[j][3], trajectory[j][4], trajectory[j][5], trajectory[j][6], trajectory[j][7]]
         end
     end
     print("Done.")
