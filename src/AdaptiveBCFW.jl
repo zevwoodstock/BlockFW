@@ -44,6 +44,7 @@ function FrankWolfe.perform_line_search(
         for i in ls.blocks
             gamma[i] = min(1, FrankWolfe.fast_dot(gradient.blocks[i], d.blocks[i]) / (ls.L_est * FrankWolfe.fast_dot(d.blocks[i], d.blocks[i])))
         end
+        copyto!(x_tilde, x)
         FrankWolfe.muladd_memory_mode(memory_mode, x_tilde, gamma, d)
 
         g_tilde = similar(gradient)

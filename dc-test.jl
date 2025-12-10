@@ -58,7 +58,7 @@ ec_lazy_skiprate2 = round(1.5*n)
 orders = [
     FrankWolfe.FullUpdate(),
     FrankWolfe.CyclicUpdate(),
-    FrankWolfe.StochasticUpdate(),
+    PermutationCyclic(),
     EssentiallyCyclic(lazy_component,ec_lazy_skiprate1),
     EssentiallyCyclic(lazy_component,ec_lazy_skiprate2),
     LazyUpdate(lazy_component,lazy_skiprate, lazy_blocksize),

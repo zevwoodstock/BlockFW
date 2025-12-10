@@ -46,7 +46,7 @@ lazy_skiprate3 = 5
 orders = [
     FrankWolfe.FullUpdate(),
     FrankWolfe.CyclicUpdate(),
-    FrankWolfe.StochasticUpdate(),
+    PermutationCyclic(),
     EssentiallyCyclic(lazy_component,ec_lazy_skiprate),
     LazyUpdate(lazy_component,lazy_skiprate),
     LazyUpdate(lazy_component,lazy_skiprate2),

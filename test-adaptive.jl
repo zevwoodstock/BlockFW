@@ -21,7 +21,7 @@ function grad!(storage, x)
 end
 
 #List of values of n (problems defined on n-by-n matrix variables)
-n_list = [100, 300, 500]
+n_list = [500]
 num_trials = 20
 
 for n in n_list
@@ -47,7 +47,7 @@ lazy_skiprate3 = 5
 orders = [
     FrankWolfe.FullUpdate(),
     FrankWolfe.CyclicUpdate(),
-    FrankWolfe.StochasticUpdate(),
+    PermutationCyclic(),
     EssentiallyCyclic(lazy_component,ec_lazy_skiprate),
     LazyUpdate(lazy_component,lazy_skiprate),
     LazyUpdate(lazy_component,lazy_skiprate2),

@@ -41,6 +41,14 @@ function FrankWolfe.select_update_indices(update::LazyUpdate, s::FrankWolfe.Call
     return push!([[rand(range(1,l)[1:l .!= update.lazy_block]) for _ in range(1,update.block_size)] for _ in 1:(update.refresh_rate -1)], range(1,l))
 end
 
+struct PermutationCyclic <: FrankWolfe.BlockCoordinateUpdateOrder end
+
+function FrankWolfe.select_update_indices(::PermutationCyclic, s::FrankWolfe.CallbackState, dual_gaps)
+    l = length(s.lmo.lmos)
+    perm = randperm(l)
+    return [[perm[i]] for i in 1:l]
+end
+
 
 
 struct EssentiallyCyclic <: FrankWolfe.BlockCoordinateUpdateOrder 
