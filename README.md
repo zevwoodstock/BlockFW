@@ -1,5 +1,5 @@
 This repository contains the code used to produce the results in **"Flexible block-iterative analysis for the Frank-Wolfe algorithm"**
-by Gábor Braun, Sebastian Pokutta, and Zev Woodstock (<a href="https://zevwoodstock.github.io/media/publications/block.pdf">preprint</a>)
+by Gábor Braun, Jannis Halbey, Sebastian Pokutta, and Zev Woodstock (<a href="https://zevwoodstock.github.io/media/publications/block.pdf">preprint</a>)
 
 After cloning the repository, to run an experiment, execute the following code (make sure <a href="https://julialang.org/">Julia</a> version $\geq 1.8.5$ is installed beforehand):
 
