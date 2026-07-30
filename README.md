@@ -84,3 +84,4 @@ table[x={time}, y={primal}] {results/BCFW_A20_500_ecyc20-07-18T19-41.txt};
 \end{tikzpicture}
 
 ```
+The work of ZW was supported by NSF DMS-2532423.
